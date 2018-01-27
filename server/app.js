@@ -5,7 +5,7 @@ const io = require('socket.io')(http);
 
 let tempSocket;
 
-app.use(express.static('images'));
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
