@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Hello world</title>
+</head>
+<script src="/socket.io/socket.io.js"></script>
+
+<style>
+  body { 
+    background-image: url('./hamster_default.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center; 
+    background-color: #fcf279;
+    background-size: 500px auto;
+}
+
+  * {
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .img {
+    height: 100%;
+    margin: auto;
+  }
+
+</style>
+
+<script>
+  const socket = io();
+  socket.on('scoreEvent', function (data) {
+    const score = data.score;
+
+    console.log(score);
+
+    if (score == -1) {
+      document.body.style.backgroundImage = "url('./hamster_dead.jpg')";
+    } else if (score >= 400) {
+      document.body.style.backgroundImage = "url('./hamster_pain.jpg')";
+    } else {
+      document.body.style.backgroundImage = "url('./hamster_notpain.jpg')";
+    }
+
+    /* setTimeout(function () {
+      imageLink.setAttribute('src', './hamster_default.jpg');
+    }, 2000); */
+  });
+
+</script>
+
+<body>
+  <!-- <img class="img" src="./hamster_default.jpg"> -->
+</body>
+
+</html>
