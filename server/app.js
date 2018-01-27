@@ -16,6 +16,9 @@ app.get('/update_score', (req, res) => {
   tempSocket.emit('scoreEvent', {
     score: score
   });
+
+  console.log(score);
+
   res.send({
     "success": true
   });

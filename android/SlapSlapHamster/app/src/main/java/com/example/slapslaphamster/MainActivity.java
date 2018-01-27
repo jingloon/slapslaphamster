@@ -116,16 +116,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     currentHealth -= speed;
 
                     if (currentHealth < 0) {
-                        playSound("frog14.mp3");
                         sendSpeed(-1);
+                        playSound("frog14.mp3");
 
                         Log.i(APP_NAME, "You are dead");
 
                         currentHealth = MAX_HEALTH;
                         lastUpdate += MAX_TIMEOUT;
                     } else {
-                        playSound("frog" + soundToPlay + ".mp3");
                         sendSpeed(speed);
+                        playSound("frog" + soundToPlay + ".mp3");
 
                         Log.i(APP_NAME, "Current life: " + currentHealth);
                     }
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void sendSpeed(double speed) {
-        client.get("http://192.168.137.200:3000/update_score?score=" + speed, new AsyncHttpResponseHandler() {
+        client.get("http://192.168.43.200:3000/update_score?score=" + speed, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.i(APP_NAME, "score updated");

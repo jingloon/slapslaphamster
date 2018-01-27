@@ -2,45 +2,74 @@
 <html>
 
 <head>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+
   <title>Hello world</title>
 </head>
 <script src="/socket.io/socket.io.js"></script>
 
-<style>
-  body { 
-    background-image: url('./hamster_default.jpg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center; 
-    background-color: #fcf279;
-    background-size: 500px auto;
-}
 
+<style>
   * {
     padding: 0px;
     margin: 0px;
   }
 
-  .img {
-    height: 100%;
-    margin: auto;
+  body {
+    background-color: rgb(253, 244, 112);
+  }
+
+  #imgContainer {
+    width: 100%;
+    height: 100vh;
+    background-position: center center;
+    background-image: url('./hamster_default.jpg');
+    background-size: 800px auto;
+    background-repeat: no-repeat;
+  }
+
+  .hide {
+    display:none;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
   }
 
 </style>
 
 <script>
   const socket = io();
+  let triggered = 0;
+
   socket.on('scoreEvent', function (data) {
     const score = data.score;
 
     console.log(score);
 
+    triggered = (triggered + 1) % 2;
+
     if (score == -1) {
-      document.body.style.backgroundImage = "url('./hamster_dead.jpg')";
+      document.getElementById("imgContainer").style.backgroundImage = "url('./hamster_dead.jpg')";
+      $('#imgContainer').animateCss('rubberBand');
     } else if (score >= 400) {
-      document.body.style.backgroundImage = "url('./hamster_pain.jpg')";
+      const imageUrl = `./hamster_pain_${triggered}.jpg`;
+      console.log(imageUrl);
+      document.getElementById("imgContainer").style.backgroundImage = `url('${imageUrl}')`;
+
+      if (triggered === 1) {
+        $('#imgContainer').animateCss('rubberBand');
+      } else {
+        $('#imgContainer').animateCss('shake');
+      }
+
     } else {
-      document.body.style.backgroundImage = "url('./hamster_notpain.jpg')";
+      const imageUrl = `./hamster_notpain_${triggered}.jpg`;
+      console.log(imageUrl);
+      document.getElementById("imgContainer").style.backgroundImage = `url('${imageUrl}')`;
+      $('#imgContainer').animateCss('bounce');
     }
 
     /* setTimeout(function () {
@@ -48,10 +77,35 @@
     }, 2000); */
   });
 
+  $(document).ready(() => {
+    console.log('ready');
+    $('#imgContainer').animateCss('zoomIn');
+  });
+
+  $.fn.extend({
+    animateCss: function (animationName, callback) {
+      var animationEnd =
+        'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+      this.addClass('animated ' + animationName).one(animationEnd, function () {
+        $(this).removeClass('animated ' + animationName);
+        if (callback) {
+          callback();
+        }
+      });
+      return this;
+    },
+  });
+
 </script>
 
 <body>
-  <!-- <img class="img" src="./hamster_default.jpg"> -->
+  <div id="imgContainer"></div>
+  <img class="hide" src="./hamster_default.jpg" />
+  <img class="hide" src="./hamster_pain_0.jpg" />
+  <img class="hide" src="./hamster_pain_1.jpg" />
+  <img class="hide" src="./hamster_notpain_0.jpg" />
+  <img class="hide" src="./hamster_notpain_1.jpg" />
+  <img class="hide" src="./hamster_dead.jpg" />
 </body>
 
 </html>
