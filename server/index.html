@@ -24,14 +24,32 @@
   #imgContainer {
     width: 100%;
     height: 100vh;
-    background-position: center center;
-    background-image: url('./hamster_default.jpg');
+    background-position: 50% 100%;
     background-size: 800px auto;
     background-repeat: no-repeat;
   }
 
+  #logo {
+    height: 35vh;
+    padding-top: 30px;
+  }
+
+  #hamster {
+    position: absolute;
+    width: 750px;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    margin: -150px 0 0 -375px;
+  }
+
+  .center {
+    display: block;
+    margin: 0 auto;
+  }
+
   .hide {
-    display:none;
+    display: none;
   }
 
   ::-webkit-scrollbar {
@@ -52,24 +70,24 @@
     triggered = (triggered + 1) % 2;
 
     if (score == -1) {
-      document.getElementById("imgContainer").style.backgroundImage = "url('./hamster_dead.jpg')";
-      $('#imgContainer').animateCss('tada');
+      document.getElementById("hamster").src = "./hamster_dead.jpg";
+      $('#hamster').animateCss('tada');
     } else if (score >= 400) {
       const imageUrl = `./hamster_pain_${triggered}.jpg`;
       console.log(imageUrl);
-      document.getElementById("imgContainer").style.backgroundImage = `url('${imageUrl}')`;
+      document.getElementById("hamster").src = imageUrl;
 
       if (triggered === 1) {
-        $('#imgContainer').animateCss('rubberBand');
+        $('#hamster').animateCss('rubberBand');
       } else {
-        $('#imgContainer').animateCss('shake');
+        $('#hamster').animateCss('shake');
       }
 
     } else {
       const imageUrl = `./hamster_notpain_${triggered}.jpg`;
       console.log(imageUrl);
-      document.getElementById("imgContainer").style.backgroundImage = `url('${imageUrl}')`;
-      $('#imgContainer').animateCss('bounce');
+      document.getElementById("hamster").src = imageUrl;
+      $('#hamster').animateCss('bounce');
     }
 
     /* setTimeout(function () {
@@ -79,7 +97,8 @@
 
   $(document).ready(() => {
     console.log('ready');
-    $('#imgContainer').animateCss('zoomIn');
+    $('#hamster').animateCss('zoomIn');
+    $('#logo').animateCss('rubberBand');
   });
 
   $.fn.extend({
@@ -99,7 +118,10 @@
 </script>
 
 <body>
-  <div id="imgContainer"></div>
+  <div id="imgContainer">
+    <img id="logo" class="center" src="./logo.png" />
+    <img id="hamster" src="./hamster_default.jpg" />
+  </div>
   <img class="hide" src="./hamster_default.jpg" />
   <img class="hide" src="./hamster_pain_0.jpg" />
   <img class="hide" src="./hamster_pain_1.jpg" />
