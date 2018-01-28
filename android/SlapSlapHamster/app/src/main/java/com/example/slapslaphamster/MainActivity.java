@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
